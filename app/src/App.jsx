@@ -47,9 +47,16 @@ export default function App() {
     return <PageCarousel userId={null} />
   }
 
+  async function handleLogout() {
+    try {
+      const { supabase } = await import('@shared/lib/supabase.js')
+      await supabase.auth.signOut()
+    } catch { /* session will clear via onAuthStateChange */ }
+  }
+
   if (!session) {
     return <AuthScreen onAuth={setSession} />
   }
 
-  return <PageCarousel userId={session.user.id} />
+  return <PageCarousel userId={session.user.id} onLogout={handleLogout} />
 }

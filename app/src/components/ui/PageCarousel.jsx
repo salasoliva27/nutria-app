@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react'
-import { motion, useMotionValue, useTransform } from 'framer-motion'
+import { motion, useMotionValue } from 'framer-motion'
 import { MainPage } from '../../pages/MainPage.jsx'
 import { DashboardPage } from '../../pages/DashboardPage.jsx'
 
-export function PageCarousel({ userId }) {
+export function PageCarousel({ userId, onLogout }) {
   const [page, setPage] = useState(0)
   const x = useMotionValue(0)
   const dragStart = useRef(0)
@@ -35,7 +35,7 @@ export function PageCarousel({ userId }) {
           <MainPage userId={userId} />
         </div>
         <div className="h-full" style={{ width: '50%' }}>
-          <DashboardPage userId={userId} />
+          <DashboardPage userId={userId} onLogout={onLogout} />
         </div>
       </motion.div>
 
