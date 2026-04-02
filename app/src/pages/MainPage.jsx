@@ -68,33 +68,52 @@ export function MainPage({ userId }) {
           </p>
         </div>
 
-        {/* Button fades out once chat opens */}
+        {/* CTA — fades out once chat opens */}
         <AnimatePresence>
           {!chatOpen && (
             <motion.button
               onClick={() => setChatOpen(true)}
-              className="relative overflow-hidden rounded-full px-8 py-4"
+              className="relative overflow-hidden"
               style={{
-                border: '1.5px solid var(--accent-teal)',
-                color: 'var(--accent-teal)',
-                fontFamily: "'DM Mono', monospace",
-                fontSize: 15,
-                backgroundColor: 'transparent',
+                borderRadius: 20,
+                padding: '18px 32px',
+                border: '1px solid rgba(0,229,196,0.3)',
+                backgroundColor: 'rgba(0,229,196,0.05)',
+                cursor: 'pointer',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 6,
+                minWidth: 220,
               }}
               animate={{
                 boxShadow: [
-                  '0 0 16px rgba(0,229,196,0.2)',
-                  '0 0 32px rgba(0,229,196,0.45)',
-                  '0 0 16px rgba(0,229,196,0.2)',
+                  '0 0 24px rgba(0,229,196,0.12), inset 0 0 24px rgba(0,229,196,0.03)',
+                  '0 0 48px rgba(0,229,196,0.28), inset 0 0 32px rgba(0,229,196,0.07)',
+                  '0 0 24px rgba(0,229,196,0.12), inset 0 0 24px rgba(0,229,196,0.03)',
                 ],
-                scale: [1, 1.02, 1],
               }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+              whileHover={{ scale: 1.03, backgroundColor: 'rgba(0,229,196,0.08)' }}
               whileTap={{ scale: 0.97 }}
-              exit={{ opacity: 0, scale: 0.85, transition: { duration: 0.2 } }}
+              exit={{ opacity: 0, scale: 0.88, transition: { duration: 0.18 } }}
             >
-              Habla con nutrIA
+              {/* Scan line animation */}
+              <motion.div
+                style={{
+                  position: 'absolute', left: 0, right: 0, height: 1,
+                  background: 'linear-gradient(90deg, transparent, rgba(0,229,196,0.4), transparent)',
+                  pointerEvents: 'none',
+                }}
+                animate={{ top: ['0%', '100%'] }}
+                transition={{ duration: 2.2, repeat: Infinity, ease: 'linear', repeatDelay: 1.5 }}
+              />
+              <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 19, color: 'var(--text-primary)', letterSpacing: '-0.01em', lineHeight: 1 }}>
+                iniciar consulta
+              </span>
+              <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: 'var(--accent-teal)', letterSpacing: '0.14em', opacity: 0.8 }}>
+                NUTRICIÓN CLÍNICA · IA
+              </span>
             </motion.button>
           )}
         </AnimatePresence>
