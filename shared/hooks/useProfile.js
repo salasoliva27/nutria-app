@@ -15,7 +15,7 @@ export function useProfile(userId) {
       const { supabase, supabaseConfigured } = await import('../lib/supabase.js')
       if (!supabaseConfigured) return
       const { data } = await supabase
-        .from('patient_profiles')
+        .from('nutria_patient_profiles')
         .select('*')
         .eq('user_id', userId)
         .single()
@@ -38,7 +38,7 @@ export function useProfile(userId) {
         // Remove db-managed fields before upsert
         const { id: _id, created_at: _c, ...payload } = merged
         const { data } = await supabase
-          .from('patient_profiles')
+          .from('nutria_patient_profiles')
           .upsert(payload, { onConflict: 'user_id' })
           .select()
           .single()

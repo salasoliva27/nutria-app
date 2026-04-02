@@ -17,7 +17,7 @@ export function useChat({ persist = false, userId = null, patientProfile = null 
       const { supabase, supabaseConfigured } = await import('../lib/supabase.js')
       if (!supabaseConfigured) return
       const { data } = await supabase
-        .from('conversations')
+        .from('nutria_conversations')
         .select('id, messages')
         .eq('user_id', userId)
         .single()
@@ -38,12 +38,12 @@ export function useChat({ persist = false, userId = null, patientProfile = null 
       if (!supabaseConfigured) return
       if (conversationId) {
         await supabase
-          .from('conversations')
+          .from('nutria_conversations')
           .update({ messages: updatedMessages, updated_at: new Date().toISOString() })
           .eq('id', conversationId)
       } else {
         const { data } = await supabase
-          .from('conversations')
+          .from('nutria_conversations')
           .insert({ user_id: userId, messages: updatedMessages })
           .select('id')
           .single()
