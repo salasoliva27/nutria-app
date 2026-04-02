@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react'
 import Markdown from 'react-markdown'
-import { motion } from 'framer-motion'
 import { GlowEffect } from './GlowEffect.jsx'
 
 const mdComponents = {
   p: ({ children }) => (
     <p style={{ margin: '0 0 0.55em', lineHeight: 1.7 }}>{children}</p>
-  ),
-  'p:last-child': ({ children }) => (
-    <p style={{ margin: 0, lineHeight: 1.7 }}>{children}</p>
   ),
   strong: ({ children }) => (
     <strong style={{ color: 'var(--accent-teal)', fontWeight: 600 }}>{children}</strong>
@@ -60,7 +56,8 @@ const mdComponents = {
       letterSpacing: '0.06em',
     }}>{children}</h3>
   ),
-  code: ({ inline, children }) => inline ? (
+  // In react-markdown v10, `code` = inline only; block code comes via `pre > code`
+  code: ({ children }) => (
     <code style={{
       backgroundColor: 'rgba(0,229,196,0.1)',
       border: '1px solid rgba(0,229,196,0.18)',
@@ -70,8 +67,6 @@ const mdComponents = {
       color: 'var(--accent-teal)',
       fontFamily: "'DM Mono', monospace",
     }}>{children}</code>
-  ) : (
-    <code style={{ fontFamily: "'DM Mono', monospace", fontSize: '0.87em' }}>{children}</code>
   ),
   pre: ({ children }) => (
     <pre style={{
@@ -83,7 +78,14 @@ const mdComponents = {
       margin: '0.4em 0 0.6em',
       fontSize: '0.86em',
       lineHeight: 1.55,
-    }}>{children}</pre>
+    }}>
+      {/* Reset inline code styling inside pre blocks */}
+      {typeof children === 'object'
+        ? <code style={{ fontFamily: "'DM Mono', monospace", background: 'none', border: 'none', padding: 0, color: 'var(--text-primary)', fontSize: 'inherit' }}>
+            {children?.props?.children}
+          </code>
+        : children}
+    </pre>
   ),
   blockquote: ({ children }) => (
     <blockquote style={{
